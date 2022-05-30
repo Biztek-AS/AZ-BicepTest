@@ -1,5 +1,5 @@
 param location string = resourceGroup().location
-param name string = 'vegardbronstad009'
+param name string = 'vbrst009'
 param type string = 'Standard_LRS'
 
 var containerName = 'images'

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.5.6.12127",
-      "templateHash": "11582182445428576295"
+      "templateHash": "16331588993363913036"
     }
   },
   "parameters": {
@@ -15,7 +15,7 @@
     },
     "name": {
       "type": "string",
-      "defaultValue": "vegardbronstad009"
+      "defaultValue": "vbrst009"
     },
     "type": {
       "type": "string",
