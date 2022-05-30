@@ -1,16 +1,20 @@
-@minLength(3)
-@maxLength(24)
-@description('Provide a name for the storage account. Use only lower case letters and numbers. The name must be unique across Azure.')
-param storageName string
- 
-output storagename string = exampleStorage.name
-output storagekey  string = exampleStorage.listKeys().keys[0].value
- 
-resource exampleStorage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
-  name: storageName
-  location: 'norwayeast'
-  sku: {
-    name: 'Standard_LRS'
+param location string = resourceGroup().location
+param name string = 'vegardbronstad009'
+param type string = 'Standard_LRS'
+
+var containerName = 'images'
+
+resource stacc 'Microsoft.Storage/storageAccounts@2021-06-01'= {
+  name: name
+  location:location
+  kind:'StorageV2'
+  sku:{
+    name:type
   }
-  kind: 'StorageV2'
 }
+
+resource container 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-06-01' = {
+  name:'${stacc.name}/default/${containerName}'
+}
+
+output storageID string = stacc.id

@@ -5,39 +5,50 @@
     "_generator": {
       "name": "bicep",
       "version": "0.5.6.12127",
-      "templateHash": "10164825754473349519"
+      "templateHash": "11582182445428576295"
     }
   },
   "parameters": {
-    "storageName": {
+    "location": {
       "type": "string",
-      "metadata": {
-        "description": "Provide a name for the storage account. Use only lower case letters and numbers. The name must be unique across Azure."
-      },
-      "maxLength": 24,
-      "minLength": 3
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "name": {
+      "type": "string",
+      "defaultValue": "vegardbronstad009"
+    },
+    "type": {
+      "type": "string",
+      "defaultValue": "Standard_LRS"
     }
+  },
+  "variables": {
+    "containerName": "images"
   },
   "resources": [
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "apiVersion": "2021-02-01",
-      "name": "[parameters('storageName')]",
-      "location": "eastus",
+      "apiVersion": "2021-06-01",
+      "name": "[parameters('name')]",
+      "location": "[parameters('location')]",
+      "kind": "StorageV2",
       "sku": {
-        "name": "Standard_LRS"
-      },
-      "kind": "StorageV2"
+        "name": "[parameters('type')]"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2021-06-01",
+      "name": "[format('{0}/default/{1}', parameters('name'), variables('containerName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('name'))]"
+      ]
     }
   ],
   "outputs": {
-    "storagename": {
+    "storageID": {
       "type": "string",
-      "value": "[parameters('storageName')]"
-    },
-    "storagekey": {
-      "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageName')), '2021-02-01').keys[0].value]"
+      "value": "[resourceId('Microsoft.Storage/storageAccounts', parameters('name'))]"
     }
   }
 }
