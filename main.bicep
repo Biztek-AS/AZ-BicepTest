@@ -8,7 +8,7 @@ output storagekey  string = exampleStorage.listKeys().keys[0].value
  
 resource exampleStorage 'Microsoft.Storage/storageAccounts@2021-02-01' = {
   name: storageName
-  location: 'eastus'
+  location: 'norwayeast'
   sku: {
     name: 'Standard_LRS'
   }
